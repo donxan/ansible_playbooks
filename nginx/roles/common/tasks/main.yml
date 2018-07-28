@@ -6,7 +6,7 @@
 - name: create nginx group
   group: name=nginx system=yes
 - name: create nginx user
-  user: name=nginx group=nginx system=yes
+  user: name=nginx group=nginx system=yes shell=/sbin/nologin
 - name: copy shell to client
   copy: src=before_install_nginx.sh dest=/root/ mode=0755
 - name: Install jemalloc lua luajit  

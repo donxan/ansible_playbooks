@@ -1,0 +1,21 @@
+- name: install package
+  yum: name={{ item }}
+  with_items:
+  - keepalived
+- name: copy master_keepalived.conf.j2 to MASTER node
+  when: ansible_hostname == "s061"
+  template: src=master_keepalived.conf.j2 dest=/etc/keepalived/keepalived.conf
+  notify: reload server
+
+- name: copy backup_keepalived.conf.j2 to BACKUP node
+  when: ansible_hostname == "s062"
+  template: src=backup_keepalived.conf.j2 dest=/etc/keepalived/keepalived.conf
+  notify: reload server
+
+- name: copy notice
+  copy: src=check_ng.sh dest=/usr/local/sbin/check_ng.sh owner=root group=root mode=0755
+
+- name: start server
+  service: name={{ item }} state=started enabled=true
+  with_items:
+  - keepalived

@@ -1,0 +1,4 @@
+- hosts: keeplivedservers
+  remote_user: root
+  roles:
+  - keepalived
