@@ -5,9 +5,9 @@
 ```
 git clone git@github.com:donxan/ansible_playbooks.git
 ```
-
-```
 ### 目录结构
+```
+
 [root@s061 nginx]# tree ./
 ./
 ├── install.retry
