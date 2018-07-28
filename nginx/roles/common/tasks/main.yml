@@ -12,9 +12,9 @@
 - name: Install jemalloc lua luajit  
   shell: /root/before_install_nginx.sh > before_install_nginx.txt 
 - name: stop nginx
-  shell: /etc/init.d/nginx stop
+  shell: /etc/init.d/nginx stop || killall nginx
 - name: clear olad nginx conf
   file: path={{item}} state=absent
   with_items:
     - /etc/nginx
-    
+    - /etc/init.d/nginx 

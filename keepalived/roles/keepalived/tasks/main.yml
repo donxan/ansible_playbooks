@@ -13,9 +13,12 @@
   notify: reload server
 
 - name: copy notice
-  copy: src=check_ng.sh dest=/usr/local/sbin/check_ng.sh owner=root group=root mode=0755
+  template: src={{item.src}} dest={{item.dest}} owner=root group=root mode=0755
+  with_items: 
+    - {src: check_ng.sh.j2,dest: /usr/local/sbin/check_ng.sh}
+    - {src: notify.sh.j2,dest: /usr/local/sbin/notify.sh}
 
 - name: start server
-  service: name={{ item }} state=started enabled=true
+  service: name={{ item }} state=restarted enabled=true
   with_items:
   - keepalived

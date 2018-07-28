@@ -1,0 +1,23 @@
+#!/bin/bash
+case "$1" in
+        master)
+                . /etc/profile;/usr/local/tomcat/apache-tomcat-7.0.68/bin/catalina.sh start
+                /usr/sbin/nginx
+                exit 0
+        ;;
+        backup)
+                . /etc/profile;/usr/local/tomcat/apache-tomcat-7.0.68/bin/catalina.sh start
+                /usr/sbin/nginx -s stop
+                /usr/sbin/nginx
+                exit 0
+        ;;
+        fault)
+                /usr/sbin/nginx -s stop
+                exit 0
+        ;;
+        *)
+                echo 'Usage:notify.sh{master|backup|fault}'
+                exit 1
+        ;;
+esac
+

@@ -4,11 +4,13 @@
 # Source Function Library
 . /etc/init.d/functions
 # Nginx Settings
+
 NGINX_SBIN="/usr/sbin/nginx"
 NGINX_CONF="/etc/nginx/nginx.conf"
 NGINX_PID="/var/run/nginx.pid"
 RETVAL=0
 prog="Nginx"
+
 start() 
 {
     echo -n $"Starting $prog: "
@@ -18,6 +20,7 @@ start()
     echo
     return $RETVAL
 }
+
 stop() 
 {
     echo -n $"Stopping $prog: "
@@ -27,6 +30,25 @@ stop()
     echo
     return $RETVAL
 }
+
+status ()
+{
+                if [ -f $PIDFILE ];then
+                        mPID=`cat $PIDFILE`
+                        isStart=`ps ax | awk '{ print $1 }' | grep -e "^${mPID}$"`
+                        if [ "$isStart" != '' ];then
+                                echo "$NAME (pid `pidof $NAME`) already running."
+                                exit 1
+                        else
+                                echo "$NAME is stopped"
+                                exit 0
+                        fi
+                else
+                        echo "$NAME is stopped"
+                        exit 0
+        fi
+}
+
 reload()
 {
     echo -n $"Reloading $prog: "
@@ -35,22 +57,28 @@ reload()
     echo
     return $RETVAL
 }
+
 restart()
 {
     stop
     start
 }
+
 configtest()
 {
     $NGINX_SBIN -c $NGINX_CONF -t
     return 0
 }
+
 case "$1" in
   start)
         start
         ;;
   stop)
         stop
+        ;;
+  status)
+        status
         ;;
   reload)
         reload
@@ -65,4 +93,5 @@ case "$1" in
         echo $"Usage: $0 {start|stop|reload|restart|configtest}"
         RETVAL=1
 esac
+
 exit $RETVAL

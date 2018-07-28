@@ -15,7 +15,7 @@ vrrp_script chk_nginx {
 
 vrrp_instance VI_1 {
     state MASTER
-    interface eth0
+    interface ens192
     virtual_router_id 51    
     priority 90
     advert_int 1
@@ -30,5 +30,7 @@ vrrp_instance VI_1 {
     track_script {
         chk_nginx
     }
-
+    notify_master "/usr/local/sbin/notify.sh master"
+    notify_backup "/usr/local/sbin/notify.sh backup"
+    notify_fault "/usr/local/sbin/notify.sh fault"
 }

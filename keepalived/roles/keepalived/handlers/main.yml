@@ -2,4 +2,3 @@
   service: name={{ item }} state=restarted
   with_items:
     - keepalived
-    - nginx
