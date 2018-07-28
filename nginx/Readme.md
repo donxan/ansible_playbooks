@@ -2,8 +2,8 @@
 ### 简介
 本库为快速使用ansible部署nginx.
 ### 克隆库
+```
 git clone git@github.com:donxan/ansible_playbooks.git
-### 快速生成目录
 ```
 
 ```
