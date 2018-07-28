@@ -2,19 +2,18 @@
 ### 简介
 本库为快速使用ansible部署nginx.
 ### 克隆库
-git clone git@github.com:donxan/ansible.git
+git clone git@github.com:donxan/ansible_playbooks.git
 ### 快速生成目录
 ```
-# cd nginx_install
-# mkdir -p roles/{common,install}/{handlers,files,meta,tasks,templates,vars}
 
 ```
 ### 目录结构
-```
-tree /etc/ansible/nginx_install/
-/etc/ansible/nginx_install/
+[root@s061 nginx]# tree ./
+./
 ├── install.retry
 ├── install.yml
+├── Readme.html
+├── Readme.md
 └── roles
     ├── common
     │   ├── files
@@ -45,13 +44,7 @@ tree /etc/ansible/nginx_install/
         │   │   ├── uwsgi_params
         │   │   ├── uwsgi_params.default
         │   │   ├── vhost
-        │   │   │   ├── ask.apelearn.com_proxy.conf
-        │   │   │   ├── crowd.oceanwing.com.conf
-        │   │   │   ├── default.conf
-        │   │   │   ├── itks.oceanwing.com.conf
-        │   │   │   ├── itks.oceanwing.com.conf.bak
-        │   │   │   ├── jenkins.oceanwing.com.conf
-        │   │   │   └── jira.oceanwing.com.conf
+        │   │   │   └── default.conf
         │   │   └── win-utf
         │   ├── nginx_conf.tar.gz
         │   ├── nginx.tar.gz
@@ -68,5 +61,5 @@ tree /etc/ansible/nginx_install/
         └── vars
             └── main.yml
 
-17 directories, 37 files
+17 directories, 33 files
 ```
