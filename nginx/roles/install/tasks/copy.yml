@@ -18,5 +18,13 @@
     - /var/nginx/proxy_temp_dir
     - /var/log/nginx/
     - /tmp/nginx/client_body
-
+    - /data/www
+    - /data/www/default
+  notify: restart nginx
+- name: Copy nginx.conf to /etc/nginx/
+  template: src={{item.src}} dest={{item.dest}} owner=nginx group=root mode=0755
+  with_items: 
+    - {src: nginx.conf,dest: /etc/nginx/nginx.conf}
+    - {src: index.html.j2,dest: /data/www/default/index.html}
+    - {src: tanzhen.php.j2,dest: /data/www/default/tanzhen.php}
 

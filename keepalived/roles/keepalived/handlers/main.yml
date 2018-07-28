@@ -1,5 +1,5 @@
 - name: reload server
-  service: name={{ item }}
+  service: name={{ item }} state=restarted
   with_items:
-  - keepalived
-  - nginx
+    - keepalived
+    - nginx

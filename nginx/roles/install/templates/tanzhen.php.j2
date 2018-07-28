@@ -1,0 +1,718 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>PHP Prober</title>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="data:image/png;base64,Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAADAADEDgAAxA4AAAAAAAAAAAAAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICA19fX19fX19fXwICAwICAwICAwICAwICAwICAwICA19fX19fX19fXwICAwICAwICA19fXAAAA19fXwICAwICAwICAwICAwICAwICAwICA19fXAAAA19fXwICAwICAwICA19fXAAAA19fX19fXwICAwICA19fXwICAwICA19fX19fXAAAA19fX19fXwICAwICA19fXAAAAAAAAAAAA19fX19fXAAAA19fX19fXAAAA19fXAAAAAAAAAAAA19fX19fX19fXAAAA19fX19fXAAAA19fXAAAA19fX19fXAAAA19fXAAAA19fX19fXAAAA19fX19fXAAAA19fX19fXAAAA19fXAAAA19fX19fXAAAA19fXAAAA19fX19fXAAAA19fX19fXAAAA19fX19fXAAAA19fXAAAA19fX19fXAAAA19fXAAAA19fX19fXAAAA19fX19fXAAAAAAAAAAAA19fX19fXAAAAAAAAAAAA19fX19fXAAAAAAAAAAAA19fX19fXwICA19fX19fX19fXwICA19fXAAAA19fX19fXwICAwICA19fX19fX19fXwICAwICAwICAwICAwICAwICAwICA19fXAAAA19fXwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICA19fX19fX19fXwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICA" type="image/x-icon" rel="icon" />
+<style type="text/css">
+<!--
+body{margin: 0 auto; padding: 0; background-color:#eee;font-size:14px;font-family: Noto Sans CJK SC,Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;}
+a,input,button{outline: none !important;-webkit-appearance: none;border-radius: 0;}
+button::-moz-focus-inner,input::-moz-focus-inner{border-color:transparent !important;}
+:focus {border: none;outline: 0;}
+h1 {font-size: 26px; padding: 0; margin: 0; color: #333333;}
+h1 small {font-size: 11px; font-family: Tahoma; font-weight: bold; }
+a{color: #666; text-decoration:none;}
+a.black{color: #000000; text-decoration:none;}
+table{width:100%;clear:both;padding: 0; margin: 0 0 18px;border-collapse:collapse; border-spacing: 0;box-shadow: 1px 1px 4px #999;}
+th{padding: 6px 12px; font-weight:bold;background:#9191c4;color:#000;border:1px solid #9191c4; text-align:left;font-size:16px;border-bottom: 0px;font-weight: normal;}
+tr{padding: 0; background:#FFFFFF;}
+td{padding: 3px 6px; border:1px solid #CCCCCC;}
+#nav{height:48px;font-size: 15px;background-color:#447;color:#fff !important;position:fixed;top:0px;width:100%;cursor: default;}
+.w_logo{height:29px; padding:9px 24px;display: inline-block;font-size: 18px;float:left;}
+.w_top{height:24px;color:#fff;font-size: 15px;display: inline-block;padding:12px 24px;transition: background-color 0.2s;float:left;cursor: default;}
+.w_top:hover{background:#0C2136;}
+.w_foot{height:25px;text-align:center; background:#dedede;}
+input{padding: 2px; background: #FFFFFF;border:1px solid #888;font-size:12px; color:#000;}
+input:focus{border:1px solid #666;}
+input.btn{line-height: 20px; padding: 6px 15px; color:#fff; background: #447; font-size:12px; border:0;transition: background-color 0.2s;box-shadow: 0 0 1px #888888;}
+input.btn:hover{background:#558;}
+.bar {border:0; background:#ddd; height:15px; font-size:2px; width:89%; margin:2px 0 5px 0;overflow: hidden;}
+.barli_red{background:#d9534f; height:15px; margin:0px; padding:0;}
+.barli_blue{background:#337ab7; height:15px; margin:0px; padding:0;}
+.barli_green{background:#5cb85c; height:15px; margin:0px; padding:0;}
+.barli_orange{background:#f0ad4e; height:15px; margin:0px; padding:0;}
+.barli_blue2{background:#5bc0de; height:15px; margin:0px; padding:0;}
+#page {max-width: 1080px; padding: 0 auto; margin: 0 auto; text-align: left;}
+#header{position: relative; padding: 5px;}
+.w_small{font-family: Courier New;}
+.w_number{color: #177BBE;}
+.sudu {padding: 0; background:#5dafd1; }
+.suduk { margin:0px; padding:0;}
+.resYes{}
+.resNo{color: #FF0000;}
+.word{word-break:break-all;}
+@media screen and (max-width: 1180px){
+	#page {margin: 80px 50px 0; }
+}
+-->
+</style>
+<script language="JavaScript" type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript"> 
+<!--
+$(document).ready(function(){getJSONData();});
+var OutSpeed2=1902751395;
+var OutSpeed3=1902752043;
+var OutSpeed4=9093655;
+var OutSpeed5=0;
+var InputSpeed2=1604212334;
+var InputSpeed3=1845252610;
+var InputSpeed4=9093655;
+var InputSpeed5=0;
+
+function getJSONData()
+{
+    setTimeout("getJSONData()", 1000);
+    $.getJSON('?act=rt&callback=?', displayData);
+}
+function ForDight(Dight,How)
+{ 
+  if (Dight<0){
+      var Last=0+"B/s";
+  }else if (Dight<1024){
+      var Last=Math.round(Dight*Math.pow(10,How))/Math.pow(10,How)+"B/s";
+  }else if (Dight<1048576){
+      Dight=Dight/1024;
+      var Last=Math.round(Dight*Math.pow(10,How))/Math.pow(10,How)+"K/s";
+  }else{
+      Dight=Dight/1048576;
+      var Last=Math.round(Dight*Math.pow(10,How))/Math.pow(10,How)+"M/s";
+  }
+    return Last; 
+}
+
+function displayData(dataJSON)
+{
+    $("#useSpace").html(dataJSON.useSpace);
+    $("#freeSpace").html(dataJSON.freeSpace);
+    $("#hdPercent").html(dataJSON.hdPercent);
+    $("#barhdPercent").width(dataJSON.barhdPercent);
+    $("#TotalMemory").html(dataJSON.TotalMemory);
+    $("#UsedMemory").html(dataJSON.UsedMemory);
+    $("#FreeMemory").html(dataJSON.FreeMemory);
+    $("#CachedMemory").html(dataJSON.CachedMemory);
+    $("#Buffers").html(dataJSON.Buffers);
+    $("#TotalSwap").html(dataJSON.TotalSwap);
+    $("#swapUsed").html(dataJSON.swapUsed);
+    $("#swapFree").html(dataJSON.swapFree);
+    $("#swapPercent").html(dataJSON.swapPercent);
+    $("#loadAvg").html(dataJSON.loadAvg);
+    $("#uptime").html(dataJSON.uptime);
+    $("#freetime").html(dataJSON.freetime);
+    $("#stime").html(dataJSON.stime);
+    $("#bjtime").html(dataJSON.bjtime);
+    $("#memRealUsed").html(dataJSON.memRealUsed);
+    $("#memRealFree").html(dataJSON.memRealFree);
+    $("#memRealPercent").html(dataJSON.memRealPercent);
+    $("#memPercent").html(dataJSON.memPercent);
+    $("#barmemPercent").width(dataJSON.memPercent);
+    $("#barmemRealPercent").width(dataJSON.barmemRealPercent);
+    $("#memCachedPercent").html(dataJSON.memCachedPercent);
+    $("#barmemCachedPercent").width(dataJSON.barmemCachedPercent);
+    $("#barswapPercent").width(dataJSON.barswapPercent);
+    $("#NetOut2").html(dataJSON.NetOut2);
+    $("#NetOut3").html(dataJSON.NetOut3);
+    $("#NetOut4").html(dataJSON.NetOut4);
+    $("#NetOut5").html(dataJSON.NetOut5);
+    $("#NetOut6").html(dataJSON.NetOut6);
+    $("#NetOut7").html(dataJSON.NetOut7);
+    $("#NetOut8").html(dataJSON.NetOut8);
+    $("#NetOut9").html(dataJSON.NetOut9);
+    $("#NetOut10").html(dataJSON.NetOut10);
+    $("#NetInput2").html(dataJSON.NetInput2);
+    $("#NetInput3").html(dataJSON.NetInput3);
+    $("#NetInput4").html(dataJSON.NetInput4);
+    $("#NetInput5").html(dataJSON.NetInput5);
+    $("#NetInput6").html(dataJSON.NetInput6);
+    $("#NetInput7").html(dataJSON.NetInput7);
+    $("#NetInput8").html(dataJSON.NetInput8);
+    $("#NetInput9").html(dataJSON.NetInput9);
+    $("#NetInput10").html(dataJSON.NetInput10);    
+    $("#NetOutSpeed2").html(ForDight((dataJSON.NetOutSpeed2-OutSpeed2),3));
+    OutSpeed2=dataJSON.NetOutSpeed2;
+    $("#NetOutSpeed3").html(ForDight((dataJSON.NetOutSpeed3-OutSpeed3),3));
+    OutSpeed3=dataJSON.NetOutSpeed3;
+    $("#NetOutSpeed4").html(ForDight((dataJSON.NetOutSpeed4-OutSpeed4),3));
+    OutSpeed4=dataJSON.NetOutSpeed4;
+    $("#NetOutSpeed5").html(ForDight((dataJSON.NetOutSpeed5-OutSpeed5),3));
+    OutSpeed5=dataJSON.NetOutSpeed5;
+    $("#NetInputSpeed2").html(ForDight((dataJSON.NetInputSpeed2-InputSpeed2),3));
+    InputSpeed2=dataJSON.NetInputSpeed2;
+    $("#NetInputSpeed3").html(ForDight((dataJSON.NetInputSpeed3-InputSpeed3),3));
+    InputSpeed3=dataJSON.NetInputSpeed3;
+    $("#NetInputSpeed4").html(ForDight((dataJSON.NetInputSpeed4-InputSpeed4),3));
+    InputSpeed4=dataJSON.NetInputSpeed4;
+    $("#NetInputSpeed5").html(ForDight((dataJSON.NetInputSpeed5-InputSpeed5),3));
+    InputSpeed5=dataJSON.NetInputSpeed5;
+}
+-->
+</script>
+</head>
+<body>
+<div id="page">
+<div id="header">
+    <h1><a href="prober.php">PHP Prober</a></h1>
+</div>
+<!--服务器相关参数-->
+<table width="100%" cellpadding="3" cellspacing="0">
+  <tr><th colspan="4">Server Parameters</th></tr>
+  <tr>
+    <td>Server Domain/IP</td>
+    <td colspan="3">www - _(172.16.22.223)&nbsp;&nbsp;Your IP address is：172.16.58.8</td>
+  </tr>
+  <tr>
+    <td>Server ID</td>
+    <td colspan="3">Linux aiker03 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64</td>
+  </tr>
+  <tr>
+    <td width="13%">Server OS</td>
+    <td width="37%">Linux &nbsp;Kernel version：3.10.0-514.el7.x86_64</td>
+    <td width="13%">Web Server</td>
+    <td width="37%">nginx/1.14.0</td>
+  </tr>
+  <tr>
+    <td>Server Language</td>
+    <td>zh-CN,zh;q=0.9,en;q=0.8,en-US;q=0.7</td>
+    <td>Server Port</td>
+    <td>80</td>
+  </tr>
+  <tr>
+	  <td>Server HostName</td>
+	  <td>aiker03</td>
+	  <td>Absolute Path</td>
+	  <td>/data/wwwroot/default</td>
+	</tr>
+  <tr>
+	  <td>Server Admin</td>
+	  <td></td>
+		<td>Prober Path</td>
+		<td>/data/wwwroot/default/prober.php</td>
+	</tr>
+</table>
+
+<table width="100%" cellpadding="3" cellspacing="0" align="center">
+  <tr><th colspan="6">Real-time Data</th></tr>
+  <tr>
+    <td width="13%" >Current Time</td>
+    <td width="37%" ><span id="stime">2018-07-28 13:48:34</span></td>
+    <td width="13%" >Server Uptime</td>
+    <td width="37%" colspan="3"><span id="uptime">4 Days 9 Hours 28 Minutes</span></td>
+  </tr>
+  <tr>
+    <td width="13%">CPU Model [4Core]</td>
+    <td width="87%" colspan="5">Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz | Frequency:2198.907 | Secondary cache:25600 KB
+ | Bogomips:4399.99 ×4</td>
+  </tr>
+  <tr>
+    <td>CPU usage</td>
+    <td colspan="5">0%us,  0%sy,  0%ni, 100%id,  0%wa,  0%irq,  0%softirq | <a href='?act=cpu_percentage' target='_blank' class='static'>View Chart</a>	</td>
+  </tr>
+    <tr>
+    <td>Space usage</td>
+
+    <td colspan="5">
+        Total Space 152.429&nbsp;G，
+        Used <font color='#333333'><span id="useSpace">7.598</span></font>&nbsp;G，
+        Free <font color='#333333'><span id="freeSpace">144.831</span></font>&nbsp;G，
+        Rate <span id="hdPercent">4.98</span>%
+        <div class="bar"><div id="barhdPercent" class="barli_orange" style="width:4.98%" >&nbsp;</div> </div>
+    </td>
+
+  </tr>
+	  <tr>
+		<td>Memory usage</td>
+		<td colspan="5">
+          Total Memory: 
+          <font color='#CC0000'>15.515 G </font>
+           , Used
+          <font color='#CC0000'><span id="UsedMemory">2.646 G</span></font>
+          , Free
+          <font color='#CC0000'><span id="FreeMemory">12.869 G</span></font>
+          , Rate
+		  <span id="memPercent">17.05</span>
+          <div class="bar"><div id="barmemPercent" class="barli_green" style="width:17.05%">&nbsp;</div> </div>
+		
+		  Cache Memory <span id="CachedMemory">1.575 G</span>
+		  , Rate 
+          <span id="memCachedPercent">10.15</span>
+		  %	| Buffers  <span id="Buffers">0.001 G</span>
+          <div class="bar"><div id="barmemCachedPercent" class="barli_blue" >&nbsp;</div></div>
+
+          Real Memory Used
+          <span id="memRealUsed">1.07 G</span>
+          , Real Memory Free
+          <span id="memRealFree">14.445 G</span>
+          , Rate
+          <span id="memRealPercent">6.89</span>
+          %
+          <div class="bar"><div id="barmemRealPercent" class="barli_blue2" style="width:6.89%" >&nbsp;</div></div>
+
+	
+          SWAP:
+          17 G          , Used
+          <span id="swapUsed">0 G</span>
+          , Free
+          <span id="swapFree">17 G</span>
+          , Rate
+          <span id="swapPercent">0</span>
+          %
+          <div class="bar"><div id="barswapPercent" class="barli_red" style="width:0%" >&nbsp;</div> </di
+v>
+
+		  
+	  </td>
+	</tr>
+	  <tr>
+		<td>System Load</td>
+		<td colspan="5" class="w_number"><span id="loadAvg">0.00 0.01 0.05 1/386</span></td>
+	</tr>
+</table>
+
+<table width="100%" cellpadding="3" cellspacing="0" align="center">
+    <tr><th colspan="5">NetWork</th></tr>
+     <tr>
+        <td width="13%">br0 : </td>
+        <td width="29%">In: <font color='#CC0000'><span id="NetInput2">1 G 505 M 917 K 622 B </span></font></td>
+		<td width="14%">Real time: <font color='#CC0000'><span id="NetInputSpeed2">0B/s</span></font></td>
+        <td width="29%">Out: <font color='#CC0000'><span id="NetOut2">1 G 790 M 619 K 675 B </span></font></td>
+		<td width="14%">Real time: <font color='#CC0000'><span id="NetOutSpeed2">0B/s</span></font></td>
+    </tr>
+
+     <tr>
+        <td width="13%">eth0 : </td>
+        <td width="29%">In: <font color='#CC0000'><span id="NetInput3">1 G 735 M 788 K 514 B </span></font></td>
+		<td width="14%">Real time: <font color='#CC0000'><span id="NetInputSpeed3">0B/s</span></font></td>
+        <td width="29%">Out: <font color='#CC0000'><span id="NetOut3">1 G 790 M 620 K 299 B </span></font></td>
+		<td width="14%">Real time: <font color='#CC0000'><span id="NetOutSpeed3">0B/s</span></font></td>
+    </tr>
+
+     <tr>
+        <td width="13%">lo : </td>
+        <td width="29%">In: <font color='#CC0000'><span id="NetInput4">8 M 688 K 535 B </span></font></td>
+		<td width="14%">Real time: <font color='#CC0000'><span id="NetInputSpeed4">0B/s</span></font></td>
+        <td width="29%">Out: <font color='#CC0000'><span id="NetOut4">8 M 688 K 535 B </span></font></td>
+		<td width="14%">Real time: <font color='#CC0000'><span id="NetOutSpeed4">0B/s</span></font></td>
+    </tr>
+
+</table>
+
+<table width="100%" cellpadding="3" cellspacing="0" align="center">
+  <tr>
+    <th colspan="4" class="th_1">PHP Modules</th>
+  </tr>
+  <tr>
+    <td colspan="4"><span class="w_small">
+Core&nbsp;&nbsp;date&nbsp;&nbsp;libxml&nbsp;&nbsp;openssl&nbsp;&nbsp;pcre&nbsp;&nbsp;sqlite3&nbsp;&nbsp;zlib&nbsp;&nbsp;bcmath&nbsp;&nbsp;ctype&nbsp;&nbsp;curl&nbsp;&nbsp;dom&nbsp;&nbsp;hash&nbsp;&nbsp;filter&nbsp;&nbsp;<br />ftp&nbsp;&nbsp;gd&nbsp;&nbsp;gettext&nbsp;&nbsp;SPL&nbsp;&nbsp;iconv&nbsp;&nbsp;intl&nbsp;&nbsp;json&nbsp;&nbsp;mbstring&nbsp;&nbsp;session&nbsp;&nbsp;standard&nbsp;&nbsp;pcntl&nbsp;&nbsp;mysqlnd&nbsp;&nbsp;PDO&nbsp;&nbsp;<br />pdo_mysql&nbsp;&nbsp;pdo_sqlite&nbsp;&nbsp;Phar&nbsp;&nbsp;posix&nbsp;&nbsp;Reflection&nbsp;&nbsp;mysqli&nbsp;&nbsp;shmop&nbsp;&nbsp;SimpleXML&nbsp;&nbsp;soap&nbsp;&nbsp;sockets&nbsp;&nbsp;sodium&nbsp;&nbsp;exif&nbsp;&nbsp;sysvsem&nbsp;&nbsp;<br />tokenizer&nbsp;&nbsp;xml&nbsp;&nbsp;xmlreader&nbsp;&nbsp;xmlrpc&nbsp;&nbsp;xmlwriter&nbsp;&nbsp;xsl&nbsp;&nbsp;zip&nbsp;&nbsp;cgi-fcgi&nbsp;&nbsp;memcache&nbsp;&nbsp;memcached&nbsp;&nbsp;redis&nbsp;&nbsp;ionCube Loader&nbsp;&nbsp;</span>
+    </td>
+  </tr>
+</table>
+<table width="100%" cellpadding="3" cellspacing="0" align="center">
+  <tr><th colspan="4" class="th_1">PHP Parameters</th></tr>
+  <tr>
+    <td width="32%">PHP Info:</td>
+    <td width="18%">
+		    <a href='/prober.php?act=phpinfo' target='_blank'>PHPINFO</a>    </td>
+    <td width="32%">PHP Version: </td>
+    <td width="18%">7.2.8</td>
+  </tr>
+  <tr>
+    <td>Run PHP: </td>
+    <td>FPM-FCGI</td>
+    <td>Memory Limit:</td>
+    <td>448M</td>
+  </tr>
+  <tr>
+    <td>PHP Safe Mode: </td>
+    <td><font color="red">×</font></td>
+    <td>Post Max Size：</td>
+    <td>100M</td>
+  </tr>
+  <tr>
+    <td>Upload Max Filesize：</td>
+    <td>50M</td>
+    <td>Floating-point data of significant digits：</td>
+    <td>14</td>
+  </tr>
+  <tr>
+    <td>Max Execution Time：</td>
+    <td>600秒</td>
+    <td>Socket TimeOut: </td>
+    <td>60秒</td>
+  </tr>
+  <tr>
+    <td>PHP Doc Root: </td>
+    <td><font color="red">×</font></td>
+    <td>User Dir: </td>
+    <td><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>Enable Dl: </td>
+    <td><font color="red">×</font></td>
+    <td>Include Path: </td>
+    <td><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>Display Errors: </td>
+    <td><font color="red">×</font></td>
+    <td>Register Globals: </td>
+    <td><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>Magic Quotes Gpc: </td>
+    <td><font color="red">×</font></td>
+    <td>"&lt;?...?&gt;"Short Open Tag:</td>
+    <td><font color="green">√</font></td>
+  </tr>
+  <tr>
+    <td>"&lt;% %&gt;"ASP Tags: </td>
+    <td><font color="red">×</font></td>
+    <td>Ignore Repeated Errors: </td>
+    <td><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>Ignore Repeated Source: </td>
+    <td><font color="red">×</font></td>
+    <td>Report Memleaks: </td>
+    <td><font color="green">√</font></td>
+  </tr>
+  <tr>
+    <td>Magic Quotes Gpc: </td>
+    <td><font color="red">×</font></td>
+    <td>Magic Quotes Runtime: </td>
+    <td><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>Allow URL Fopen: </td>
+    <td><font color="green">√</font></td>
+    <td>Register Argc Argv: </td>
+    <td><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>Cookie：</td>
+    <td><font color="green">√</font></td>
+    <td>Spell check(ASpell Library): </td>
+    <td><font color="red">×</font></td>
+  </tr>
+   <tr>
+    <td>High-precision math(BCMath)：</td>
+    <td><font color="green">√</font></td>
+    <td>PREL(PCRE)：</td>
+    <td><font color="green">√</font></td>
+   <tr>
+    <td>PDF：</td>
+    <td><font color="red">×</font></td>
+    <td>SNMP：</td>
+    <td><font color="red">×</font></td>
+  </tr> 
+   <tr>
+    <td>VMailMgr：</td>
+    <td><font color="red">×</font></td>
+    <td>Curl：</td>
+    <td><font color="green">√</font></td>
+  </tr> 
+   <tr>
+    <td>SMTP：</td>
+    <td><font color="green">√</font></td>
+    <td>SMTP：</td>
+    <td>localhost</td>
+  </tr> 
+	<tr>
+		<td>Enable Functions：</td>
+		<td colspan="3"><a href='/prober.php?act=Function' target='_blank' class='static'>Click here to view more!</a></td>		
+	</tr>
+	<tr>
+		<td>Disable Functions：</td>
+		<td colspan="3" class="word">
+passthru&nbsp;&nbsp;exec&nbsp;&nbsp;system&nbsp;&nbsp;chroot&nbsp;&nbsp;chgrp&nbsp;&nbsp;<br />chown&nbsp;&nbsp;shell_exec&nbsp;&nbsp;proc_open&nbsp;&nbsp;proc_get_status&nbsp;&nbsp;ini_alter&nbsp;&nbsp;<br />ini_restore&nbsp;&nbsp;dl&nbsp;&nbsp;openlog&nbsp;&nbsp;syslog&nbsp;&nbsp;readlink&nbsp;&nbsp;<br />symlink&nbsp;&nbsp;popepassthru&nbsp;&nbsp;stream_socket_server&nbsp;&nbsp;fsocket&nbsp;&nbsp;popen&nbsp;&nbsp;		</td>
+	</tr>
+</table>
+<!--组件信息-->
+<table width="100%" cellpadding="3" cellspacing="0" align="center">
+  <tr><th colspan="4" class="th_1">Components</th></tr>
+  <tr>
+    <td width="32%">FTP：</td>
+    <td width="18%"><font color="green">√</font></td>
+    <td width="32%">XML：</td>
+    <td width="18%"><font color="green">√</font></td>
+  </tr>
+  <tr>
+    <td>Session：</td>
+    <td><font color="green">√</font></td>
+    <td>Socket：</td>
+    <td><font color="green">√</font></td>
+  </tr>
+  <tr>
+    <td>Calendar</td>
+    <td><font color="red">×</font>	</td>
+    <td>Allow Url Fopen: </td>
+    <td><font color="green">√</font></td>
+  </tr>
+  <tr>
+    <td>GD Library:</td>
+    <td>
+    bundled (2.1.0 compatible)</td>
+    <td>Zlib：</td>
+    <td><font color="green">√</font></td>
+  </tr>
+  <tr>
+    <td>IMAP: </td>
+    <td><font color="red">×</font></td>
+    <td>JDToGregorian: </td>
+    <td><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>Preg Match: </td>
+    <td><font color="green">√</font></td>
+    <td>WDDX: </td>
+    <td><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>Iconv: </td>
+    <td><font color="green">√</font></td>
+    <td>mbstring: </td>
+    <td><font color="green">√</font></td>
+  </tr>
+  <tr>
+    <td>BCADD: </td>
+    <td><font color="green">√</font></td>
+    <td>LDAP: </td>
+    <td><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>MCrypt: </td>
+    <td><font color="red">×</font></td>
+    <td>Mhash Count: </td>
+    <td><font color="green">√</font></td>
+  </tr>
+</table>
+
+<!--第三方组件信息-->
+<table width="100%" cellpadding="3" cellspacing="0" align="center">
+  <tr><th colspan="4" class="th_1">Other Components</th></tr>
+  <tr>
+    <td width="32%">Zend Version</td>
+    <td width="18%">3.2.0</td>
+    <td width="32%">
+Zend Optimizer	</td>
+    <td width="18%"><font color=red>×</font></td>
+  </tr>
+  <tr>
+    <td>eAccelerator</td>
+    <td><font color=red>×</font></td>
+    <td>ioncube</td>
+    <td>10.2.20</td>
+  </tr>
+  <tr>
+    <td>XCache</td>
+    <td><font color=red>×</font></td>
+    <td>APC</td>
+    <td><font color=red>×</font></td>
+  </tr>
+</table>
+
+<!--数据库支持-->
+<table width="100%" cellpadding="3" cellspacing="0" align="center">
+  <tr><th colspan="4" class="th_2">Database</th></tr>
+  <tr>
+    <td width="32%">MySQL: </td>
+    <td width="18%"><font color="green">√</font>    	</td>
+    <td width="32%">ODBC：</td>
+    <td width="18%"><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>Oracle: </td>
+    <td><font color="red">×</font></td>
+    <td>SQL Server: </td>
+    <td><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>dBASE：</td>
+    <td><font color="red">×</font></td>
+    <td>mSQL：</td>
+    <td><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>SQLite：</td>
+    <td><font color=green>√</font>　SQLite3　Ver 3.20.1</td>
+    <td>Hyperwave：</td>
+    <td><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>PostgreSQL：</td>
+    <td><font color="red">×</font></td>
+    <td>Informix：</td>
+    <td><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>DBA database：</td>
+    <td><font color="red">×</font></td>
+    <td>DBM database：</td>
+    <td><font color="red">×</font></td>
+  </tr>
+  <tr>
+    <td>FilePro database：</td>
+    <td><font color="red">×</font></td>
+    <td>SyBase database：</td>
+    <td><font color="red">×</font></td>
+  </tr> 
+</table>
+<form action="/prober.php#bottom" method="post">
+<!--服务器性能检测-->
+<table width="100%" cellpadding="3" cellspacing="0" align="center">
+  <tr><th colspan="5" class="th_6">Server Performance Test</th></tr>
+  <tr align="center">
+    <td width="19%">Reference Object</td>
+    <td width="17%">Int Test<br />(1+1 Count 3 Million)</td>
+    <td width="17%">Float Test<br />(Pi times the square root of 3 million)</td>
+    <td width="17%">I/O Test<br />(10K file read 10,000 times)</td>
+    <td width="30%">CPU Info</td>
+  </tr>
+  <tr align="center">
+    <td align="left">LinodeVPS</td>
+    <td>0.357 Second</td>
+    <td>0.802 Second</td>
+    <td>0.023 Second</td>
+    <td align="left">4 x Xeon L5520 @ 2.27GHz</td>
+  </tr> 
+  <tr align="center">
+    <td align="left">PhotonVPS.com</td>
+    <td>0.431 Second</td>
+    <td>1.024 Second</td>
+    <td>0.034 Second</td>
+    <td align="left">8 x Xeon E5520 @ 2.27GHz</td>
+  </tr>
+  <tr align="center">
+    <td align="left"> SpaceRich.com</td>
+    <td>0.421 Second</td>
+    <td>1.003 Second</td>
+    <td>0.038 Second</td>
+    <td align="left">4 x Core i7 920 @ 2.67GHz</td>
+  </tr>
+  <tr align="center">
+    <td align="left">RiZie.com</td>
+    <td>0.521 Second</td>
+    <td>1.559 Second</td>
+    <td>0.054 Second</td>
+    <td align="left">2 x Pentium4 3.00GHz</td>
+  </tr>
+  <tr align="center">
+    <td align="left">CitynetHost.com</a></td>
+    <td>0.343 Second</td>
+    <td>0.761 Second</td>
+    <td>0.023 Second</td>
+    <td align="left">2 x Core2Duo E4600 @ 2.40GHz</td>
+  </tr>
+  <tr align="center">
+    <td align="left">IXwebhosting.com</td>
+    <td>0.535 Second</td>
+    <td>1.607 Second</td>
+    <td>0.058 Second</td>
+    <td align="left">4 x Xeon E5530 @ 2.40GHz</td>
+  </tr>
+  <tr align="center">
+    <td>This Server</td>
+    <td>No Test<br /><input class="btn" name="act" type="submit" value="Int Test" /></td>
+    <td>No Test<br /><input class="btn" name="act" type="submit" value="Float Test" /></td>
+    <td>No Test<br /><input class="btn" name="act" type="submit" value="IO Test" /></td>
+    <td></td>
+  </tr>
+</table>
+<input type="hidden" name="pInt" value="No Test" />
+<input type="hidden" name="pFloat" value="No Test" />
+<input type="hidden" name="pIo" value="No Test" />
+
+<!--网络速度测试-->
+<table width="100%" cellpadding="3" cellspacing="0" align="center">
+	<tr><th colspan="3" class="th_3">Network Speed Test</th></tr>
+  <tr>
+    <td width="19%" align="center"><input name="act" type="submit" class="btn" value="Start Test" />
+  <br />
+  1000k bytes sent to the client data
+	</td>
+    <td width="81%" align="center" >
+
+  <a name="w_networkspeed" style="position:relative;top:-60px;"></a>
+  <table align="center" width="550" border="0" cellspacing="0" cellpadding="0" >
+    <tr >
+    <td height="15" width="50">Bandwidth</td>
+	  <td height="15" width="50">1M</td>
+    <td height="15" width="50">2M</td>
+    <td height="15" width="50">3M</td>
+    <td height="15" width="50">4M</td>
+    <td height="15" width="50">5M</td>
+    <td height="15" width="50">6M</td>
+    <td height="15" width="50">7M</td>
+    <td height="15" width="50">8M</td>
+    <td height="15" width="50">9M</td>
+    <td height="15" width="50">10M</td>
+    </tr>
+   <tr>
+    <td colspan="11" class="suduk" ><table align="center" width="550" border="0" cellspacing="0" cellpadding="0" height="8" class="suduk">
+    <tr>
+      <td class="sudu"  width="0"></td>
+      <td class="suduk" width="550"></td>
+    </tr>
+    </table>
+   </td>
+  </tr>
+  </table>
+  <font color='#cc0000'>&nbsp;No Test&nbsp;</font>    </td>
+  </tr>
+</table>
+
+<!--MySQL数据库连接检测-->
+<table width="100%" cellpadding="3" cellspacing="0" align="center">
+	<tr><th colspan="3" class="th_2">MySQL Database connection detection</th></tr>
+  <tr>
+    <td width="15%"></td>
+    <td width="60%">
+      Host: <input type="text" name="host" value="localhost" size="10" />
+      Port: <input type="text" name="port" value="3306" size="10" />
+      Username：<input type="text" name="login" size="10" />
+      Password：<input type="password" name="password" size="10" />
+    </td>
+    <td width="25%">
+      <input class="btn" type="submit" name="act" value="MySQL Test" />
+    </td>
+  </tr>
+</table>
+  <!--函数检测-->
+<table width="100%" cellpadding="3" cellspacing="0" align="center">
+	<tr><th colspan="3" class="th_4">Function Test</th></tr>
+  <tr>
+    <td width="15%"></td>
+    <td width="60%">
+      Enter the function you want to test:
+      <input type="text" name="funName" size="50" />
+    </td>
+    <td width="25%">
+      <input class="btn" type="submit" name="act" align="right" value="Function Test" />
+    </td>
+  </tr>
+  </table>
+<!--邮件发送检测-->
+<table width="100%" cellpadding="3" cellspacing="0" align="center">
+  <tr><th colspan="3" class="th_5">Mail Send Test</th></tr>
+  <tr>
+    <td width="15%"></td>
+    <td width="60%">
+      Please enter your email address to test：
+      <input type="text" name="mailAdd" size="50" />
+    </td>
+    <td width="25%">
+    <input class="btn" type="submit" name="act" value="Mail Test" />
+    </td>
+  </tr>
+  </table>
+</form>
+<a id="bottom"></a>
+
+<div id="footer">
+&copy; 2018 <A HREF="http://www.Yahei.Net" target="_blank">PHP Proberv0.4.7</A> All Rights Reserved.<br />
+Processed in 1.0012 seconds. 0.65MB memory usage.<br /><u style="float: right; margin-top: -15px;"><a href="#header"><h2> Top↑</h2></a></u>
+</div>
+</div>
+</body>
+</html>
