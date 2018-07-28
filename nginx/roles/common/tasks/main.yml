@@ -1,0 +1,13 @@
+- name: Install initializtion require software
+  yum: name={{ item }} state=installed
+  with_items:
+    - zlib-devel
+    - pcre-devel
+- name: create nginx group
+  group: name=nginx system=yes
+- name: create nginx user
+  user: name=nginx group=nginx system=yes
+- name: copy shell to client
+  copy: src=before_install_nginx.sh dest=/root/ mode=0755
+- name: Install jemalloc lua luajit  
+  shell: /root/before_install_nginx.sh > before_install_nginx.txt 

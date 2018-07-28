@@ -1,0 +1,4 @@
+nginx_user: nginx
+nginx_port: 80
+nginx_basedir: /usr/local/nginx
+

@@ -1,0 +1,22 @@
+#- name: Copy Nginx bin
+#  copy: src=sbin_nginx dest=/usr/sbin/ owner=root group=root mode=0755
+- name: Uncompression Nginx Software
+  unarchive: src=nginx.tar.gz dest=/usr/local/ 
+#- name: Uncompression Nginx conf
+#  unarchive: src=nginx_conf.tar.gz dest=/etc/ owner=root group=root mode=0755
+- name: nginx conf copy
+  copy: src={{item.src}} dest={{item.dest}} owner=root group=root mode=0755
+  with_items:
+    - {src: sbin_nginx,dest: /usr/sbin/nginx}
+#    - {src: init.d_nginx,dest: /etc/init.d/nginx}
+    - {src: nginx,dest: /etc/}
+- name: Copy Nginx Start Script
+  template: src=init.d_nginx dest=/etc/init.d/nginx owner=root group=root mode=0755
+- name: mkdir dir
+  file: path={{item}} state=directory owner=nginx group=root mode=0755
+  with_items:
+    - /var/nginx/proxy_temp_dir
+    - /var/log/nginx/
+    - /tmp/nginx/client_body
+
+
