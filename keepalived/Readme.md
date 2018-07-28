@@ -34,7 +34,6 @@ keepalived/
 9 directories, 10 files
 ```
 ```
-```
 [root@s061 keepalived]# ansible-playbook keepalived.yml 
 
 
