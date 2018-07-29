@@ -1,0 +1,17 @@
+---
+ - hosts: s066
+   remote_user: root
+   become_user: root
+   vars_files:
+    - common/vars/main.yml
+    - vars/var_mycat.yaml 
+
+   tasks:
+    - name: install dependents
+      import_tasks: common/install_dependents.yaml
+
+    - name: install mycat
+      import_tasks: common/install_mycat.yaml
+
+    - name: start mycat
+      import_tasks: common/start_mycat.yaml

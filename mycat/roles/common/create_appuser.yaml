@@ -1,0 +1,20 @@
+---
+ - hosts: s063
+   remote_user: root
+   become_user: root
+   vars_files:
+    - vars/main.yml
+   tasks:
+    - name: stransfer create_appuser.sql to remote host
+      template: 
+       src: ../template/creat_mycatuser.sql
+       dest: /tmp/creat_mycatuser.sql
+
+    - name: create mysql of mycat user on master
+      when: ansible_hostname == "s063"
+      shell: mysql -hlocalhost -uroot -p{{ mysql_root_password }} -S /tmp/mysql.sock < /tmp/creat_mycatuser.sql
+
+    - name: clear temp file tmp/master_slaves.sql
+      file:
+       path: /tmp/creat_mycatuser.sql
+       state: absent

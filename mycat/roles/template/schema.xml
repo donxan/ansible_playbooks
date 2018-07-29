@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE mycat:schema SYSTEM "schema.dtd">
+<mycat:schema xmlns:mycat="http://io.mycat/">
+
+{# config schema #}
+{% for schema in schemas %}
+        <schema name="{{ schema }}" checkSQLschema="false" sqlMaxLimit="100000" dataNode="{{ 'dn' + schema  }}">
+        </schema>
+{% endfor %}
+{# config schema #}
+
+
+{# config datanode for every schema #}
+{% for schema in schemas %}
+        <dataNode name="{{ 'dn' + schema }}" dataHost="dh01" database="{{ schema }}">
+        </dataNode>
+{% endfor %}
+{# config datanode for every schema #}
+
+        <dataHost name="dh01" maxCon="128" minCon="10" balance="3" writeType="1"   dbType="mysql" dbDriver="native">
+
+                  <heartbeat>
+                    select user()
+                  </heartbeat>
+
+                  <writeHost host="master1" url="{{ master_ip + ':' + (mysql_port | string ) }}" user="{{ mysql_app_user }}" password="{{ mysql_app_password }}">
+{# config readhost #}
+{% for slave_ip in slave_ips %}
+                        <readHost host="{{ 'slave' + (loop.index | string) }}" url="{{ slave_ip + ':' + (mysql_port | string ) }}" user="{{ mysql_app_user }}" password="{{ mysql_app_password }}">
+                        </readHost>
+{% endfor %}
+{# config readhost #}
+                  </writeHost>
+        </dataHost>
+</mycat:schema>
