@@ -1,0 +1,8 @@
+---
+ - name: sleep 15 seconds
+   shell: sleep 15
+
+ - name: remove /tmp/sleep_15.sh
+   file:
+    path: /tmp/sleep_15.sh
+    state: absent

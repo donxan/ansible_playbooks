@@ -1,0 +1,33 @@
+---
+ - name: create mysql user
+   user:
+    name: mysql
+    state: present
+    uid: "{{mysql_user_uid}}"
+
+ - name: config /etc/my.cnf for mysql-5.6.x
+   when: " '5.6' in mysql_package "
+   template:
+    src: ../template/5.6/my.cnf
+    dest: /etc/my.cnf
+    owner: mysql
+    group: mysql
+    backup: yes
+
+ - name: config /etc/my.cnf for mysql-5.7.x
+   when: " '5.7' in mysql_package "
+   template:
+    src: ../template/5.7/my.cnf
+    dest: /etc/my.cnf
+    owner: mysql
+    group: mysql
+    backup: yes
+
+ - name: config /etc/my.cnf for mysql-8.x.x
+   when: mysql_package.find('mysql-8') != -1
+   template:
+    src: ../template/8/my.cnf
+    dest: /etc/my.cnf
+    owner: mysql
+    group: mysql
+    backup: yes    

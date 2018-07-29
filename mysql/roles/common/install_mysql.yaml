@@ -1,0 +1,73 @@
+---
+#由本地传输mysql安装包到目标主机、并把安装包解压到/usr/local/目录
+#等价bash
+#scp mysql-xxxx.tar.gz 192.168.xx.xx:/tmp/
+#tar -xvf /tmp/mysq-xxxx.tar.gz -C /usr/local/
+ - name: transfer mysql install package to remote host and unarchive to /usr/local/
+   unarchive:
+    src: "{{ mysql_packages_dir }}/{{ mysql_package }}"
+    dest: /usr/local/
+    owner: mysql
+    group: mysql
+
+#设置权限
+#等价bash
+#chown -R mysql:mysql /usr/local/mysql-xxxx
+ - name: change owner to mysql user
+   file:
+    path: /usr/local/{{ mysql_package | regex_replace('.tar.gz','') }}
+    owner: mysql
+    group: mysql
+    recurse: yes
+
+#创建连接文件
+#等价bash
+#ln -s /usr/local/mysql-xxxx /usr/local/mysql
+ - name: make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql
+   file:
+    src: /usr/local/{{ mysql_package | regex_replace('.tar.gz','') }}
+    dest: /usr/local/mysql
+    state: link
+    owner: mysql
+    group: mysql
+
+#导出mysql的库文件
+ - name: export mysql share object (*.os)
+   template:
+    src: ../template/mysql.conf
+    dest: /etc/ld.so.conf.d/mysql.conf
+
+#加载共享库
+ - name: load share object
+   shell: ldconfig
+
+#导出PATH环境变量
+ - name: export path env variable
+   lineinfile:
+    path: /etc/profile
+    line: export PATH=/usr/local/mysql/bin/:$PATH
+    insertafter: EOF
+
+ - name: export path env to /root/.bashrc
+   lineinfile:
+    path: /root/.bashrc
+    line: export PATH=/usr/local/mysql/bin/:$PATH
+    insertafter: EOF  
+
+#导出头文件
+ - name: make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql
+   file:
+    src: /usr/local/mysql/include
+    dest: /usr/include/mysql
+    state: link
+
+ - name: create libmysqlclient_r.so file for php-5.6
+   when: mtls_with_php == 1
+   file:
+    src: "{{mysql_base_dir + 'lib/libmysqlclient.so'}}"
+    dest: "{{mysql_base_dir + 'lib/libmysqlclient_r.so'}}"
+    state: link
+    owner: mysql
+    group: mysql
+
+
