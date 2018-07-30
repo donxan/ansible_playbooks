@@ -1,0 +1,23 @@
+- hosts: phpservers
+  remote_user: root
+  gather_facts: True
+  vars_files:
+   - roles/install/vars/mail.yml
+
+  tasks:
+   - name: stop service
+     service: name=php-fpm state=stopped
+   - name: stop php-fpm auot boot
+     shell: chkconfig --del php-fpm
+   - name: rm {{php_setup_path}}
+     file: path={{php_setup_path}} state=absent
+   - name: rm /etc/init.d/php-fpm
+     file: path=/etc/init.d/php-fpm state=absent
+   - name: remove softlink
+     file: path={{item}} state=absent
+     with_items:
+      - /usr/bin/php
+      - /usr/bin/phpize
+      - /usr/bin/pear
+      - /usr/bin/pecl
+      - /usr/bin/php-fpm

@@ -1,0 +1,256 @@
+#!/bin/bash
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+export PATH
+
+public_file=/tmp/public.sh
+if [ ! -f $public_file ];then
+	wget -O $public_file http://download.bt.cn/install/public.sh -T 5;
+fi
+. $public_file
+
+download_Url=$NODE_URL
+Root_Path='/tmp'
+Setup_Path=/usr/local/php
+php_path=/usr/local/php
+mysql_dir=/usr/local/mysql
+mysql_config="${mysql_dir}/bin/mysql_config"
+Is_64bit=`getconf LONG_BIT`
+run_path='/tmp'
+run_user=www
+#id -u ${run_user} >/dev/null 2>&1
+#[ $? -ne 0 ] && useradd -M -s /sbin/nologin ${run_user}
+
+centos_version=`cat /etc/redhat-release | grep ' 7.' | grep -i centos`
+if [ "${centos_version}" != '' ]; then
+	rpm_path="centos7"
+else
+	rpm_path="centos6"
+fi
+
+cpuInfo=$(getconf _NPROCESSORS_ONLN)
+if [ "${cpuInfo}" -ge "4" ];then
+	cpuCore=$((${cpuInfo}/2))
+else
+	cpuCore="1"
+fi
+
+Lib_Check(){
+	if [ ! -f "/usr/local/curl/bin/curl" ]; then
+		curl_version="7.57.0"
+		wget -O curl-$curl_version.tar.gz ${download_Url}/src/curl-$curl_version.tar.gz -T 5
+		tar zxf curl-$curl_version.tar.gz
+		cd curl-$curl_version
+	    ./configure --prefix=/usr/local/curl --enable-ares --without-nss --with-ssl=/usr/local/openssl
+	    make && make install
+	    cd ..
+	    rm -rf curl-$curl_version
+		rm -rf curl-$curl_version.tar.gz
+	fi
+
+	if [ ! -f "/usr/local/libiconv/bin/iconv" ]; then
+		wget -O libiconv-1.14.tar.gz ${download_Url}/src/libiconv-1.14.tar.gz -T 5
+		mkdir /patch
+		wget -O /patch/libiconv-glibc-2.16.patch ${download_Url}/src/patch/libiconv-glibc-2.16.patch -T 5
+		tar zxf libiconv-1.14.tar.gz
+		cd libiconv-1.14
+	    patch -p0 < /patch/libiconv-glibc-2.16.patch
+	    ./configure --prefix=/usr/local/libiconv --enable-static
+	    make && make install
+	    cd ${run_path}
+	    rm -rf libiconv-1.14
+		rm -f libiconv-1.14.tar.gz
+	fi
+
+	if [ ! -f "/usr/lib/libmcrypt.so" ]; then
+		wget -O libmcrypt-2.5.8.tar.gz ${download_Url}/src/libmcrypt-2.5.8.tar.gz -T 5
+		tar zxf libmcrypt-2.5.8.tar.gz
+		cd libmcrypt-2.5.8
+		
+	    ./configure
+	    make && make install
+	    /sbin/ldconfig
+	    cd libltdl/
+	    ./configure --enable-ltdl-install
+	    make && make install
+	    ln -sf /usr/local/lib/libmcrypt.la /usr/lib/libmcrypt.la
+	    ln -sf /usr/local/lib/libmcrypt.so /usr/lib/libmcrypt.so
+	    ln -sf /usr/local/lib/libmcrypt.so.4 /usr/lib/libmcrypt.so.4
+	    ln -sf /usr/local/lib/libmcrypt.so.4.4.8 /usr/lib/libmcrypt.so.4.4.8
+	    ldconfig
+	    cd ${run_path}
+	    rm -rf libmcrypt-2.5.8
+		rm -f libmcrypt-2.5.8.tar.gz
+	fi
+
+	if [ ! -f "/usr/local/bin/mcrypt" ]; then
+		wget -O mcrypt-2.6.8.tar.gz ${download_Url}/src/mcrypt-2.6.8.tar.gz -T 5
+		tar zxf mcrypt-2.6.8.tar.gz
+		cd mcrypt-2.6.8
+	    ./configure
+	    make && make install
+	    cd ${run_path}
+	    rm -rf mcrypt-2.6.8
+		rm -f mcrypt-2.6.8.tar.gz
+	fi
+
+	if [ ! -f  "/usr/local/lib/libmhash.so" ]; then
+		wget -O mhash-0.9.9.9.tar.gz ${download_Url}/src/mhash-0.9.9.9.tar.gz -T 5
+		tar zxf mhash-0.9.9.9.tar.gz
+		cd mhash-0.9.9.9
+	    ./configure
+	    make && make install
+	    ln -sf /usr/local/lib/libmhash.a /usr/lib/libmhash.a
+	    ln -sf /usr/local/lib/libmhash.la /usr/lib/libmhash.la
+	    ln -sf /usr/local/lib/libmhash.so /usr/lib/libmhash.so
+	    ln -sf /usr/local/lib/libmhash.so.2 /usr/lib/libmhash.so.2
+	    ln -sf /usr/local/lib/libmhash.so.2.0.1 /usr/lib/libmhash.so.2.0.1
+	    ldconfig
+	    cd ${run_path}
+	    rm -rf mhash-0.9.9.9*
+	fi
+
+    Cur_Pcre_Ver=`pcre-config --version|grep '^8.' 2>&1`
+    if [ "$Cur_Pcre_Ver" == "" ];then
+		pcre_version=8.40
+	    wget -O pcre-$pcre_version.tar.gz ${download_Url}/src/pcre-$pcre_version.tar.gz -T 5
+		tar zxf pcre-$pcre_version.tar.gz
+		cd pcre-$pcre_version
+		if [ "$Is_64bit" == "64" ];then
+			./configure --prefix=/usr --docdir=/usr/share/doc/pcre-$pcre_version --libdir=/usr/lib64 --enable-unicode-properties --enable-pcre16 --enable-pcre32 --enable-pcregrep-libz --enable-pcregrep-libbz2 --enable-pcretest-libreadline --disable-static --enable-utf8  
+	    else
+			./configure --prefix=/usr --docdir=/usr/share/doc/pcre-$pcre_version --enable-unicode-properties --enable-pcre16 --enable-pcre32 --enable-pcregrep-libz --enable-pcregrep-libbz2 --enable-pcretest-libreadline --disable-static --enable-utf8
+		fi
+		make && make install
+	    cd ..
+	    rm -rf pcre-$pcre_version
+		rm -f pcre-$pcre_version.tar.gz
+	fi
+
+	if [ ! -f "/usr/local/openssl/bin/openssl" ]; then
+        cd ${run_path}
+        wget ${download_Url}/src/openssl-1.0.2l.tar.gz -T 20
+        tar -zxf openssl-1.0.2l.tar.gz
+        rm -f openssl-1.0.2l.tar.gz
+        cd openssl-1.0.2l
+        ./config --openssldir=/usr/local/openssl zlib-dynamic shared
+        make && make install
+        echo '1.0.2l_shared' > /usr/local/openssl/version.pl
+        cd ..
+        rm -rf openssl-1.0.2l
+		cat > /etc/ld.so.conf.d/openssl.conf <<EOF
+/usr/local/openssl/lib
+EOF
+		ldconfig	
+	fi
+}
+Lib_Check2(){
+	if [ ! -f "/usr/local/curl/bin/curl" ]; then
+		wget ${download_Url}/rpm/${rpm_path}/${Is_64bit}/bt-curl-7.54.0.rpm
+		rpm -ivh bt-curl-7.54.0.rpm --force --nodeps
+		rm -f bt-curl-7.54.0.rpm
+	fi
+	if [ ! -f "/usr/local/libiconv/bin/iconv" ]; then
+		wget ${download_Url}/rpm/${rpm_path}/${Is_64bit}/bt-libiconv-1.14.rpm
+		rpm -ivh bt-libiconv-1.14.rpm --force --nodeps
+		rm -f bt-libiconv-1.14.rpm
+	fi
+	if [ ! -f "/usr/lib/libmcrypt.so" ]; then
+		wget ${download_Url}/rpm/${rpm_path}/${Is_64bit}/bt-libmcrypt-2.5.8.rpm
+		rpm -ivh bt-libmcrypt-2.5.8.rpm --force --nodeps
+		rm -f bt-libmcrypt-2.5.8.rpm
+		ln -s /usr/local/lib/libltdl.so.3 /usr/lib/libltdl.so.3
+	fi
+	if [ ! -f "/usr/local/bin/mcrypt" ]; then
+		wget ${download_Url}/rpm/${rpm_path}/${Is_64bit}/bt-mcrypt-2.6.8.rpm
+		rpm -ivh bt-mcrypt-2.6.8.rpm --force --nodeps 
+		rm -f bt-mcrypt-2.6.8.rpm 
+	fi
+	if [ ! -f "/usr/local/lib/libmhash.so" ]; then
+		wget ${download_Url}/rpm/${rpm_path}/${Is_64bit}/bt-mhash-0.9.9.9.rpm
+		rpm -ivh bt-mhash-0.9.9.9.rpm --force --nodeps
+		rm -f bt-mhash-0.9.9.9.rpm
+	fi
+}
+Set_PHP_FPM_Opt()
+{
+	MemTotal=`free -m | grep Mem | awk '{print  $2}'`
+    if [[ ${MemTotal} -gt 1024 && ${MemTotal} -le 2048 ]]; then
+        sed -i "s#pm.max_children.*#pm.max_children = 50#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.start_servers.*#pm.start_servers = 10#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.min_spare_servers.*#pm.min_spare_servers = 10#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.max_spare_servers.*#pm.max_spare_servers = 50#" ${php_setup_path}/etc/php-fpm.conf
+    elif [[ ${MemTotal} -gt 2048 && ${MemTotal} -le 4096 ]]; then
+        sed -i "s#pm.max_children.*#pm.max_children = 80#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.start_servers.*#pm.start_servers = 15#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.min_spare_servers.*#pm.min_spare_servers = 15#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.max_spare_servers.*#pm.max_spare_servers = 80#" ${php_setup_path}/etc/php-fpm.conf
+    elif [[ ${MemTotal} -gt 4096 && ${MemTotal} -le 8192 ]]; then
+        sed -i "s#pm.max_children.*#pm.max_children = 150#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.start_servers.*#pm.start_servers = 30#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.min_spare_servers.*#pm.min_spare_servers = 30#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.max_spare_servers.*#pm.max_spare_servers = 150#" ${php_setup_path}/etc/php-fpm.conf
+    elif [[ ${MemTotal} -gt 8192 && ${MemTotal} -le 16384 ]]; then
+        sed -i "s#pm.max_children.*#pm.max_children = 200#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.start_servers.*#pm.start_servers = 30#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.min_spare_servers.*#pm.min_spare_servers = 30#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.max_spare_servers.*#pm.max_spare_servers = 200#" ${php_setup_path}/etc/php-fpm.conf
+    elif [[ ${MemTotal} -gt 16384 ]]; then
+        sed -i "s#pm.max_children.*#pm.max_children = 300#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.start_servers.*#pm.start_servers = 30#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.min_spare_servers.*#pm.min_spare_servers = 30#" ${php_setup_path}/etc/php-fpm.conf
+        sed -i "s#pm.max_spare_servers.*#pm.max_spare_servers = 300#" ${php_setup_path}/etc/php-fpm.conf
+    fi
+}
+
+
+Export_PHP_Autoconf()
+{
+    export PHP_AUTOCONF=/usr/local/autoconf-2.13/bin/autoconf
+    export PHP_AUTOHEADER=/usr/local/autoconf-2.13/bin/autoheader
+}
+
+Ln_PHP_Bin()
+{
+	rm -f /usr/bin/php*
+	rm -f /usr/bin/pear
+	rm -f /usr/bin/pecl
+
+    - {src: {{php_setup_path}}/bin/php,dest: /usr/bin/php}
+    - {src: {{php_setup_path}}/bin/phpize,dest: /usr/bin/phpize}
+    - {src: {{php_setup_path}}/bin/pear,dest: /usr/bin/pear}
+    - {src: {{php_setup_path}}/bin/pecl,dest: /usr/bin/pecl}
+    - {src: {{php_setup_path}}/sbin/php-fpm,dest: /usr/bin/php-fpm}
+}
+
+Pear_Pecl_Set()
+{
+    pear config-set php_ini ${php_setup_path}/etc/php.ini
+    pecl config-set php_ini ${php_setup_path}/etc/php.ini
+}
+
+Install_Composer()
+{
+	if [ ! -f "/usr/bin/composer" ];then
+		wget -O /usr/bin/composer ${download_Url}/install/src/composer.phar -T 20;
+		chmod +x /usr/bin/composer
+		if [ "${download_Url}" == "http://$CN:5880" ];then
+			composer config -g repo.packagist composer https://packagist.phpcomposer.com
+		fi
+	fi
+}
+
+Install_PHP_72()
+{
+	Lib_Check
+	Lib_Check2
+	cd ${run_path}
+	[[ -f /etc/init.d/php-fpm ]] && /etc/init.d/php-fpm stop
+	php_setup_path=${php_path}
+
+    cd ${php_setup_path}
+    Pear_Pecl_Set
+    Install_Composer
+
+Set_PHP_FPM_Opt
+}
+Install_PHP_72

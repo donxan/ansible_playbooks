@@ -1,0 +1,3 @@
+php_fpm_user: www
+php_setup_path: /usr/local/php
+

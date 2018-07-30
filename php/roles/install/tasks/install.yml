@@ -1,0 +1,14 @@
+- name: Create php_fpm User
+  user: name={{ php_fpm_user }} state=present createhome=no shell=/sbin/nologin
+- name: install dependants
+  shell: sh /tmp/php.sh
+- name: Start php_fpm Service
+  shell: /etc/init.d/php-fpm start
+- name: add php_fpm on service
+  shell: chkconfig --add php-fpm
+- name: Add Boot Start php_fpm Service
+  shell: chkconfig --level 345 php-fpm on
+- name: rm /tmp/php.sh
+  file: path=/tmp/php.sh state=absent
+- name: restart nginx
+  service: name=nginx state=restarted

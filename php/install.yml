@@ -1,0 +1,12 @@
+---
+- hosts: phpservers
+  remote_user: root
+  become_user: root
+  vars_files:
+   - roles/install/vars/mail.yml
+
+  tasks:
+   - name: copy files
+     import_tasks: roles/install/tasks/copy.yml
+   - name: install  setup
+     import_tasks: roles/install/tasks/install.yml 

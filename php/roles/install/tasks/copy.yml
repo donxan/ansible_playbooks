@@ -1,0 +1,29 @@
+- name: Uncompression php setup
+  unarchive: src=../files/php-fpm.tar.gz dest=/usr/local/ owner=root group=root mode=0755
+
+- name: rm old conf file
+  file: path={{item}} state=absent
+  with_items:
+    - /etc/nginx/enable-php.conf
+    - "{{ php_setup_path }}/etc/php-fpm.conf"
+    - /tmp/php-cgi-72.sock
+    - /usr/bin/php*
+    - /usr/bin/pear
+    - /usr/bin/pecl
+
+- name: copy new conf files
+  template: src={{item.src}} dest={{item.dest}} owner=root group=root mode=0755
+  with_items: 
+    - {src: ../templates/enable-php.conf,dest: /etc/nginx/}
+    - {src: ../templates/php-fpm.conf,dest: "{{ php_setup_path }}/etc/"}
+    - {src: ../templates/php-fpm,dest: /etc/init.d/php-fpm}
+    - {src: ../templates/php.sh.j2,dest: /tmp/php.sh}
+
+- name: create softlink for php bin files
+  file: src={{item.src}} dest={{item.dest}} state=link owner=root group=root mode=0755
+  with_items:
+    - {src: "{{php_setup_path}}/bin/php",dest: /usr/bin/php}
+    - {src: "{{php_setup_path}}/bin/phpize",dest: /usr/bin/phpize}
+    - {src: "{{php_setup_path}}/bin/pear",dest: /usr/bin/pear}
+    - {src: "{{php_setup_path}}/bin/pecl",dest: /usr/bin/pecl}
+    - {src: "{{php_setup_path}}/sbin/php-fpm",dest: /usr/bin/php-fpm}
