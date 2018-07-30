@@ -1,5 +1,7 @@
 - name: Uncompression php setup
   unarchive: src=../files/php-fpm.tar.gz dest=/usr/local/ owner=root group=root mode=0755
+- name: Uncompression php.bin
+  unarchive: src=../files/php.bin.tar.gz dest=/usr/local/php/bin/ owner=root group=root mode=0755
 
 - name: rm old conf file
   file: path={{item}} state=absent
@@ -10,6 +12,7 @@
     - /usr/bin/php*
     - /usr/bin/pear
     - /usr/bin/pecl
+    - /tmp/php-fcgi.sock
 
 - name: copy new conf files
   template: src={{item.src}} dest={{item.dest}} owner=root group=root mode=0755
