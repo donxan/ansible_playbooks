@@ -1,0 +1,19 @@
+---
+ - hosts: apacheservers
+   vars_files:
+    - vars/main.yml
+   tasks:
+    - name: install dependents
+      import_tasks: common/install_http_dependents.yaml
+
+    - name: install apr
+      import_tasks: common/install_apr.yaml
+
+    - name: install apr_util
+      import_tasks: common/install_apr_util.yaml
+    
+    - name: install httpd
+      import_tasks: common/install_httpd.yaml
+
+    - name: config httpd.service
+      import_tasks: common/config_httpd_service_and_start_httpd.yaml

@@ -1,0 +1,25 @@
+---
+ - name: transfer {{my_apr}} to remote host
+   unarchive:
+    src: "{{ my_base_dir + my_packages + 'httpd/'+ my_apr }}"
+    dest: /tmp/
+
+ - name: copy install script to remote
+   template:
+    src: ../template/install_apr.sh
+    dest: /tmp/install_apr.sh
+
+ - name: install apr
+   shell: /bin/bash /tmp/install_apr.sh
+
+ - name: remove /tmp/install_apr.sh
+   file:
+    dest: /tmp/install_apr.sh
+    state: absent
+
+ - name: remove /tmp/{{ my_apr | replace('.tar.gz','') }}
+   file:
+    dest: /tmp/{{ my_apr | replace('.tar.gz','') }}
+    state: absent
+   
+   
