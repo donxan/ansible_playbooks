@@ -128,4 +128,6 @@ mycat安装完成
 ```
 vm.overcommit_memory = 1
 ```
-重启服务器或者用户重新登录
+```
+sysctl -p
+```
