@@ -26,4 +26,6 @@
    template:
     src: ../template/server.xml
     dest: /usr/local/mycat/conf/server.xml
-
+    
+ - name: ln -sf /usr/local/mycat/bin/mycat /etc/init.d/mycat
+   shell: ln -sf /usr/local/mycat/bin/mycat /etc/init.d/mycat
