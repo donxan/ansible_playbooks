@@ -116,3 +116,16 @@ root      6187  6186  0 21:45 pts/2    00:00:00 /bin/sh -c ps -ef | grep mycat
 root      6189  6187  0 21:45 pts/2    00:00:00 grep mycat
 ```
 mycat安装完成
+
+此处有坑：
+
+如果mycat没有启动，注意可能是java vm不能分配内存
+
+```
+ echo 1 > /proc/sys/vm/overcommit_memory
+```
+永久更改： 编辑 /etc/sysctl.conf，修改参数 
+```
+vm.overcommit_memory = 1
+```
+重启服务器或者用户重新登录
